@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Steven • Farm de Redstone • Vídeo 3D</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0b0f1a;--panel:#141b2e;--accent:#44dd55;--red:#ff2d2d;--text:#fff;--muted:#9aa3b8}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+.topbar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0f1528;border-bottom:2px solid #22aa44;position:sticky;top:0;z-index:20}
+.avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#8a5a2b,#c98a4a);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:2px solid #44dd55}
+.topbar h1{font-size:16px;margin:0;line-height:1.2}
+.topbar small{color:var(--muted);font-size:12px}
+.badge{margin-left:auto;background:#1d2742;border:1px solid #33415f;color:#cfe3ff;font-size:11px;padding:6px 10px;border-radius:20px;white-space:nowrap}
+.layout{display:flex;flex-direction:column;max-width:1100px;margin:0 auto;padding:10px;gap:10px}
+.video-wrap{position:relative;border-radius:14px;overflow:hidden;background:#000;border:2px solid #2a3554;aspect-ratio:16/9;min-height:340px}
+.video-wrap.portrait{aspect-ratio:4/5;min-height:520px}
+@media(max-width:720px){.video-wrap{aspect-ratio:4/5;min-height:480px}}
+#scene{width:100%;height:100%;display:block;touch-action:none}
+.subtitle{position:absolute;left:50%;transform:translateX(-50%);bottom:76px;width:min(92%,640px);background:rgba(0,0,0,.78);border-radius:10px;padding:10px 14px;font-size:16px;line-height:1.4;text-align:center;border:1px solid rgba(255,255,255,.15);min-height:52px}
+.subtitle b{color:var(--accent)}
+.speaker{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.65);padding:6px 12px;border-radius:20px;font-size:13px;border:1px solid #44dd55}
+.live-dot{display:inline-block;width:8px;height:8px;background:#ff2d2d;border-radius:50%;margin-right:6px;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.2}}
+.chapter-tag{position:absolute;top:10px;right:10px;background:#ffcc00;color:#111;font-weight:800;font-size:12px;padding:6px 10px;border-radius:8px}
+.controls{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.92));padding:8px 10px 10px}
+.progress{height:8px;background:#333c55;border-radius:10px;overflow:hidden;cursor:pointer;margin-bottom:8px}
+.progress>div{height:100%;width:0%;background:linear-gradient(90deg,#ff2d2d,#ffcc00,#44dd55);transition:width .3s}
+.btnrow{display:flex;gap:8px;align-items:center}
+button{font-family:inherit}
+.playbtn{width:52px;height:52px;border-radius:50%;border:none;background:var(--accent);font-size:22px;cursor:pointer;flex-shrink:0;box-shadow:0 4px 16px rgba(68,221,85,.4)}
+.playbtn:active{transform:scale(.94)}
+.cbtn{background:#1d2742;color:#fff;border:1px solid #33415f;border-radius:12px;padding:12px 10px;font-size:14px;cursor:pointer;min-height:48px;flex:1}
+.cbtn:active{background:#2a3658}
+.cbtn.active{border-color:var(--accent);color:var(--accent)}
+.panels{display:grid;grid-template-columns:1.2fr .8fr;gap:10px}
+@media(max-width:800px){.panels{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid #2a3554;border-radius:14px;padding:14px}
+.card h2{margin:0 0 8px;font-size:16px}
+.card p{color:#cbd5e8;font-size:14px;line-height:1.5;margin:6px 0}
+.steps{list-style:none;margin:8px 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.steps li{background:#0f1528;border:1px solid #2a3554;border-radius:10px;padding:10px 12px;font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.steps li.done{border-color:var(--accent);background:#0f2415}
+.steps li.current{border-color:#ffcc00;background:#24200f}
+.num{width:28px;height:28px;border-radius:50%;background:#33415f;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+li.done .num{background:var(--accent);color:#06130a}
+li.current .num{background:#ffcc00;color:#111}
+.materials{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:8px}
+.mat{background:#0f1528;border:1px solid #2a3554;border-radius:10px;padding:8px;text-align:center;font-size:12px}
+.mat span{font-size:24px;display:block}
+.joystick-hint{font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
+.steven-say{background:#0f2415;border:1px dashed #44dd55;border-radius:10px;padding:10px;font-size:14px;margin-top:8px}
+.big-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);z-index:5;cursor:pointer}
+.big-play div{width:88px;height:88px;border-radius:50%;background:rgba(68,221,85,.95);display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 0 40px rgba(68,221,85,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.hidden{display:none!important}
+.viewbtns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.viewbtns button{background:#0f1528;border:1px solid #33415f;color:#cfe3ff;border-radius:20px;padding:10px 14px;font-size:13px;min-height:44px}
+</style>
+</head>
+<body>
+<div class="topbar">
+<div class="avatar">⛏️</div>
+<div><h1>STEVEN explica: FARM DE REDSTONE</h1><small>🎬 Vídeo 3D interativo • dublado em PT-BR • toque para jogar</small></div>
+<div class="badge">📱 3D Game<br>Phone / Tablet</div>
+</div>
+<div class="layout">
+<div class="video-wrap" id="videowrap">
+<canvas id="scene"></canvas>
+<div class="speaker"><span class="live-dot"></span><span id="spk">STEVEN • parado</span></div>
+<div class="chapter-tag" id="chaptag">INTRO</div>
+<div class="subtitle" id="subtitle">👋 E aí! Eu sou o <b>Steven</b>! Aperte o PLAY e eu te ensino a fazer uma <b>farm de redstone</b> que funciona no celular!</div>
+<div class="big-play" id="bigplay"><div>▶️</div></div>
+<div class="controls">
+<div class="progress" id="progress"><div id="bar"></div></div>
+<div class="btnrow">
+<button class="playbtn" id="playbtn" aria-label="play">▶</button>
+<button class="cbtn" id="prevbtn">⏮ Ant.</button>
+<button class="cbtn" id="nextbtn">Próx. ⏭</button>
+<button class="cbtn" id="mutebtn">🔊 Voz</button>
+<button class="cbtn" id="rotbtn">🔄 Girar</button>
+</div>
+</div>
+</div>
+<div class="joystick-hint">👆 Arraste na tela 3D para girar • 🤏 Pinça para zoom • 🎮 Funciona em celular e tablet</div>
+<div class="panels">
+<div class="card">
+<h2>🎞️ Roteiro do vídeo — Steven falando</h2>
+<ol class="steps" id="steps"></ol>
+<div class="steven-say" id="stevensay">💬 Steven: "Fala galera! Deixa o like que a farm é insana!"</div>
+<div class="viewbtns">
+<button data-view="geral">📷 Geral</button>
+<button data-view="steven">🧍 Steven</button>
+<button data-view="farm">⚙️ Farm</button>
+<button data-view="red">🔴 Redstone</button>
+</div>
+</div>
+<div class="card">
+<h2>🧱 Materiais da farm (toque para destacar)</h2>
+<p>Farm de cana automática com pistão + observador + redstone — perfeita para <b>Minecraft Bedrock (celular/tablet)</b>.</p>
+<div class="materials" id="mats"></div>
+<h2 style="margin-top:14px">⚡ Como funciona?</h2>
+<p>1️⃣ Cana cresce → 2️⃣ Observador detecta → 3️⃣ Sinal de <b style="color:#ff5555">redstone</b> liga → 4️⃣ Pistão quebra a cana → 5️⃣ Água leva até o funil + baú. Infinito!</p>
+<p style="background:#24200f;border-radius:8px;padding:8px">📱 <b>Dica mobile:</b> use blocos pares, deixe o chunks carregado e não saia muito longe. Ative legendas se estiver sem som!</p>
+<button class="cbtn" id="restartbtn" style="width:100%;margin-top:8px">🔁 Reiniciar vídeo 3D</button>
+</div>
+</div>
+</div>
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+const canvas=document.getElementById('scene');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x87ceeb);
+scene.fog=new THREE.Fog(0x87ceeb,18,45);
+const camera=new THREE.PerspectiveCamera(55,16/9,0.1,200);
+function resize(){const w=document.getElementById('videowrap');const r=w.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
+new ResizeObserver(resize).observe(document.getElementById('videowrap'));window.addEventListener('resize',resize);
+scene.add(new THREE.HemisphereLight(0xffffff,0x445544,0.9));
+const sun=new THREE.DirectionalLight(0xffffff,1.1);sun.position.set(8,14,6);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-15;sun.shadow.camera.right=15;sun.shadow.camera.top=15;sun.shadow.camera.bottom=-15;scene.add(sun);
+// ground
+function block(x,y,z,color,sx=1,sy=1,sz=1,emissive=0){const m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),new THREE.MeshStandardMaterial({color,emissive,emissiveIntensity:emissive?0.9:0,roughness:.8}));m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m;}
+// base grass 14x14
+for(let i=-7;i<=7;i++)for(let j=-7;j<=7;j++){const c=(i+j)%2===0?0x5fbf3f:0x55ad38;const b=block(i,-0.5,j,c);b.castShadow=false;}
+// dirt under farm + water channel
+for(let i=-4;i<=4;i++){block(i,-0.45,2,0x8a5a2b,1,0.15,1).castShadow=false;}
+const waterMat=new THREE.MeshStandardMaterial({color:0x2f9df0,transparent:true,opacity:.75});
+const water=new THREE.Mesh(new THREE.BoxGeometry(9,0.15,1),waterMat);water.position.set(0,-0.35,2);scene.add(water);
+// sand row
+for(let i=-4;i<=4;i++)block(i,-0.35,1,0xe3d79b,1,0.2,1);
+// === STEVEN (Steve) ===
+const steve=new THREE.Group();steve.position.set(-5.5,0,-2);scene.add(steve);
+const skin=0xd9a066,shirt=0x2fa3a0,pants=0x3a4ac0,hairC=0x4a2f15;
+function part(w,h,d,color,x,y,z,parent=steve){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshStandardMaterial({color,roughness:.7}));m.position.set(x,y,z);m.castShadow=true;parent.add(m);return m;}
+const legL=part(0.32,0.75,0.32,pants,-0.17,0.375,0),legR=part(0.32,0.75,0.32,pants,0.17,0.375,0);
+const body=part(0.7,0.75,0.38,shirt,0,1.12,0);
+const armL=part(0.24,0.7,0.24,skin,-0.5,1.12,0),armR=part(0.24,0.7,0.24,skin,0.5,1.12,0);
+part(0.24,0.2,0.24,shirt,-0.5,1.35,0);part(0.24,0.2,0.24,shirt,0.5,1.35,0);
+const headG=new THREE.Group();headG.position.set(0,1.85,0);steve.add(headG);
+const head=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.7,0.7),new THREE.MeshStandardMaterial({color:skin}));head.castShadow=true;headG.add(head);
+const hair=new THREE.Mesh(new THREE.BoxGeometry(0.72,0.22,0.72),new THREE.MeshStandardMaterial({color:hairC}));hair.position.y=0.28;headG.add(hair);
+const eyeM=new THREE.MeshBasicMaterial({color:0x1a2a8a});
+const eL=new THREE.Mesh(new THREE.PlaneGeometry(0.12,0.14),eyeM);eL.position.set(-0.15,0.05,0.36);headG.add(eL);
+const eR=eL.clone();eR.position.x=0.15;headG.add(eR);
+const mouth=new THREE.Mesh(new THREE.PlaneGeometry(0.28,0.08),new THREE.MeshBasicMaterial({color:0x5a1a1a}));mouth.position.set(0,-0.18,0.36);headG.add(mouth);
+steve.rotation.y=0.7;
+// name tag sprite
+function textSprite(t){const c=document.createElement('canvas');c.width=256;c.height=64;const g=c.getContext('2d');g.fillStyle='rgba(0,0,0,.7)';g.fillRect(0,0,256,64);g.fillStyle='#44dd55';g.font='bold 32px sans-serif';g.textAlign='center';g.fillText(t,128,42);const tx=new THREE.CanvasTexture(c);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tx}));s.scale.set(2,0.5,1);return s;}
+const tag=textSprite('Steven');tag.position.set(0,2.8,0);steve.add(tag);
+// === FARM BUILD (animated) ===
+const farm=new THREE.Group();scene.add(farm);
+const farmBlocks=[]; // {mesh, chapter}
+function fblock(x,y,z,color,sx=1,sy=1,sz=1,emissive=0,chap=2){const m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),new THREE.MeshStandardMaterial({color,emissive,emissiveIntensity:emissive?1:0,roughness:.75}));m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;m.visible=false;farm.add(m);farmBlocks.push({mesh:m,chap});return m;}
+// cane (verde)
+const canes=[];
+for(let i=-4;i<=4;i++){const c=fblock(i,0.15,1,0x3fbf2f,0.35,1.1,0.35,0,2);canes.push(c);}
+const canesTop=[];
+for(let i=-4;i<=4;i++){const c=fblock(i,0.95,1,0x55dd33,0.3,0.7,0.3,0,4);canesTop.push(c);}
+// pistons row z=0
+const pistons=[];
+for(let i=-4;i<=4;i++){fblock(i,0,-1,0x9a9a9a,1,1,1,0,3);const arm=fblock(i,0.1,0,0xcccccc,0.6,0.25,0.8,0,3);pistons.push(arm);}
+// observers behind pistons
+const observers=[];
+for(let i=-4;i<=4;i++){const o=fblock(i,0.6,-1,0x555555,0.9,0.9,0.5,0,3);observers.push(o);fblock(i,0.6,-1.35,0xff2d2d,0.3,0.3,0.1,0xff0000,4);}
+// redstone dust line
+const dusts=[];
+for(let i=-4;i<=4;i++){const d=fblock(i,1.15,-1,0xcc0000,0.5,0.08,0.5,0xff0000,4);dusts.push(d);}
+// chest + hopper
+const chest=fblock(5,0,2,0xb07a2a,1,0.8,1,0,2);
+const hopper=fblock(4,0,2,0x444444,0.9,0.5,0.9,0,3);
+// torch
+const torch=fblock(-5.2,0.4,-1,0xffcc00,0.2,0.8,0.2,0xffaa00,4);
+// sugar particles redstone blink
+const blinkMats=dusts.map(d=>d.material);
+let blink=0;
+// camera views
+const views={geral:{p:[7,7,9],t:[0,0.5,0]},steven:{p:[-2.5,2.2,2.5],t:[-5.5,1.5,-2]},farm:{p:[0,4,7],t:[0,0.3,0.5]},red:{p:[0,2.5,-5.5],t:[0,0.7,-1]}};
+let camPos=new THREE.Vector3(...views.geral.p),camTgt=new THREE.Vector3(...views.geral.t);
+let desiredPos=camPos.clone(),desiredTgt=camTgt.clone();
+camera.position.copy(camPos);camera.lookAt(camTgt);
+// orbit manual
+let dragging=false,px=0,py=0,theta=Math.atan2(camPos.x,camPos.z),radius=12,phi=0.6,autoRotate=true,pinchD=0;
+function updateOrbit(){const cx=desiredTgt.x,cz=desiredTgt.z;desiredPos.x=cx+radius*Math.sin(theta)*Math.cos(phi);desiredPos.z=cz+radius*Math.cos(theta)*Math.cos(phi);desiredPos.y=desiredTgt.y+radius*Math.sin(phi);}
+canvas.addEventListener('pointerdown',e=>{dragging=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-px,dy=e.clientY-py;px=e.clientX;py=e.clientY;theta-=dx*0.008;phi=Math.min(1.3,Math.max(0.15,phi+dy*0.005));autoRotate=false;document.getElementById('rotbtn').classList.remove('active');updateOrbit();});
+canvas.addEventListener('pointerup',()=>dragging=false);
+canvas.addEventListener('wheel',e=>{e.preventDefault();radius=Math.min(25,Math.max(4,radius+e.deltaY*0.01));updateOrbit();},{passive:false});
+canvas.addEventListener('touchmove',e=>{if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(pinchD){radius=Math.min(25,Math.max(4,radius-(d-pinchD)*0.03));updateOrbit();}pinchD=d;}},{passive:true});
+canvas.addEventListener('touchend',()=>pinchD=0);
+// === ROTEIRO ===
+const ROTEIRO=[
+{t:"INTRO",fala:"Fala galera! Eu sou o Steven! Hoje vou te mostrar como fazer uma farm de redstone automática no celular! É fácil, rápida e gera cana infinita!",dur:9,view:"steven",build:0},
+{t:"MATERIAIS",fala:"Você vai precisar de: terra, areia, água, cana de açúcar, 9 pistões, 9 observadores, pó de redstone, 1 baú e 1 funil. Tudo baratinho no survival!",dur:11,view:"geral",build:2},
+{t:"BASE DA FARM",fala:"Passo um: coloque água no meio, areia do lado e plante a cana. Atrás, coloque os pistões mirando na cana. Embaixo vai o funil ligado no baú!",dur:12,view:"farm",build:3},
+{t:"REDSTONE",fala:"Passo dois: coloque observadores atrás dos pistões com o rostinho para a cana, e ligue tudo com pó de redstone. Quando a cana crescer, o observador manda sinal e o pistão quebra!",dur:13,view:"red",build:4},
+{t:"TESTE FINAL",fala:"Olha só funcionando! A cana cresce, o pistão empurra, a água leva tudo pro funil! Farm infinita de redstone e cana! Deixa o like e se inscreve! Falou!",dur:10,view:"geral",build:5},
+];
+const stepsEl=document.getElementById('steps'),sub=document.getElementById('subtitle'),say=document.getElementById('stevensay'),tagEl=document.getElementById('chaptag'),spk=document.getElementById('spk'),bar=document.getElementById('bar');
+const MATS=[["⛏️","Terra x20"],["🏖️","Areia x9"],["🪣","Água"],["🎋","Cana x9"],["🟫","Pistão x9"],["👁️","Observador x9"],["🔴","Pó redstone x12"],["📦","Baú"],["⬇️","Funil"]];
+document.getElementById('mats').innerHTML=MATS.map(m=>`<div class="mat"><span>${m[0]}</span>${m[1]}</div>`).join('');
+stepsEl.innerHTML=ROTEIRO.map((r,i)=>`<li data-i="${i}"><div class="num">${i+1}</div><div><b>${r.t}</b><br><span style="color:#9aa3b8">${r.fala.slice(0,70)}...</span></div></li>`).join('');
+let idx=0,playing=false,muted=false,tStart=0,elapsed=0,raf=0,talkAmp=0;
+const total=ROTEIRO.reduce((a,r)=>a+r.dur,0);
+function speak(text){try{speechSynthesis.cancel();if(muted)return;const u=new SpeechSynthesisUtterance(text);u.lang='pt-BR';u.rate=1.02;u.pitch=1.0;const vs=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.toLowerCase().includes('pt'));if(vs)u.voice=vs;u.onboundary=()=>{talkAmp=1;};speechSynthesis.speak(u);}catch(e){}}
+function setChapter(i){idx=Math.max(0,Math.min(ROTEIRO.length-1,i));elapsed=ROTEIRO.slice(0,idx).reduce((a,r)=>a+r.dur,0);const r=ROTEIRO[idx];tagEl.textContent=(idx+1)+"/5 • "+r.t;sub.innerHTML=`<b>Steven:</b> ${r.fala}`;say.textContent='💬 Steven: "'+r.fala+'"';const v=views[r.view];desiredTgt.set(...v.t);{const dx=v.p[0]-v.t[0],dy=v.p[1]-v.t[1],dz=v.p[2]-v.t[2];radius=Math.hypot(dx,dy,dz);theta=Math.atan2(dx,dz);phi=Math.asin(dy/radius);}updateOrbit();speak(r.fala);spk.textContent='STEVEN • falando: '+r.t;[...stepsEl.children].forEach((li,j)=>{li.className=j<idx?'done':j===idx?'current':'';});const bv=r.build;farmBlocks.forEach(f=>{if(f.chap<=bv)f.mesh.visible=true;});document.getElementById('bigplay').classList.add('hidden');}
+function tick(){if(!playing)return;const r=ROTEIRO[idx];const now=performance.now();const dt=(now-tStart)/1000;tStart=now;elapsed+=dt;const chapStart=ROTEIRO.slice(0,idx).reduce((a,x)=>a+x.dur,0);if(elapsed-chapStart>=r.dur){if(idx<ROTEIRO.length-1){setChapter(idx+1);elapsed=ROTEIRO.slice(0,idx).reduce((a,x)=>a+x.dur,0);tStart=performance.now();}else{pause();elapsed=total;spk.textContent='STEVEN • vídeo concluído ✅';sub.innerHTML='🎉 <b>Fim!</b> Farm pronta! Reinicie o vídeo ou gire a câmera para explorar!';try{speechSynthesis.cancel();}catch(e){}}}bar.style.width=(elapsed/total*100)+'%';raf=requestAnimationFrame(tick);}
+function play(){if(elapsed>=total)elapsed=0;playing=true;tStart=performance.now();document.getElementById('playbtn').textContent='⏸';document.getElementById('bigplay').classList.add('hidden');if(bar.style.width==='0%'||elapsed===0||elapsed>=total-0.1)setChapter(idx);else{speak(ROTEIRO[idx].fala);}raf=requestAnimationFrame(tick);}
+function pause(){playing=false;document.getElementById('playbtn').textContent='▶';try{speechSynthesis.cancel();}catch(e){}spk.textContent='STEVEN • pausado';cancelAnimationFrame(raf);}
+document.getElementById('playbtn').onclick=()=>playing?pause():play();
+document.getElementById('bigplay').onclick=()=>{idx=0;elapsed=0;setChapter(0);play();};
+document.getElementById('prevbtn').onclick=()=>{setChapter(idx-1);if(playing){tStart=performance.now();}};
+document.getElementById('nextbtn').onclick=()=>{setChapter(idx+1);if(playing){tStart=performance.now();}};
+document.getElementById('restartbtn').onclick=()=>{idx=0;elapsed=0;farmBlocks.forEach(f=>f.mesh.visible=false);setChapter(0);play();};
+document.getElementById('mutebtn').onclick=e=>{muted=!muted;e.target.textContent=muted?'🔇 Mudo':'🔊 Voz';e.target.classList.toggle('active',muted);if(muted)try{speechSynthesis.cancel();}catch(_){}};
+document.getElementById('rotbtn').onclick=e=>{autoRotate=!autoRotate;e.target.classList.toggle('active',autoRotate);};
+document.getElementById('progress').onclick=e=>{const r=e.currentTarget.getBoundingClientRect();const p=(e.clientX-r.left)/r.width;elapsed=p*total;let acc=0;for(let i=0;i<ROTEIRO.length;i++){acc+=ROTEIRO[i].dur;if(elapsed<acc){setChapter(i);elapsed=p*total;break;}}bar.style.width=(p*100)+'%';if(playing)tStart=performance.now();};
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{const v=views[b.dataset.view];desiredTgt.set(...v.t);const dx=v.p[0]-v.t[0],dy=v.p[1]-v.t[1],dz=v.p[2]-v.t[2];radius=Math.hypot(dx,dy,dz);theta=Math.atan2(dx,dz);phi=Math.asin(dy/radius);updateOrbit();});
+// animate
+let t=0;setChapter(0);pause();elapsed=0;bar.style.width='0%';farmBlocks.forEach(f=>f.mesh.visible=false);
+// mostra base inicial mesmo pausado
+farmBlocks.filter(f=>f.chap<=2).forEach(f=>f.mesh.visible=true);
+function animate(){requestAnimationFrame(animate);t+=0.016;blink+=0.06;const s=Math.sin(blink)*0.5+0.5;blinkMats.forEach(m=>m.emissiveIntensity=0.4+s);mouth.scale.y=1;try{if(speechSynthesis.speaking&&!muted){mouth.scale.y=1+Math.abs(Math.sin(t*18))*2.2;talkAmp=1;}else{talkAmp*=0.9;mouth.scale.y=1+Math.max(0,Math.sin(t*2))*0.15;}}catch(e){}
+// steve idle + gesture
+steve.position.y=Math.abs(Math.sin(t*2))*0.06;headG.rotation.y=Math.sin(t*0.8)*0.25;headG.rotation.x=playing?-0.05+Math.sin(t*6)*0.03:Math.sin(t*1.2)*0.08;armR.rotation.x=playing?-0.9+Math.sin(t*6)*0.35:-0.1+Math.sin(t*2)*0.1;armL.rotation.x=Math.sin(t*2)*0.12;legL.rotation.x=Math.sin(t*2)*0.08;legR.rotation.x=-Math.sin(t*2)*0.08;
+// canes balanço
+canes.forEach((c,i)=>{if(c.visible)c.rotation.z=Math.sin(t*1.5+i)*0.05;});
+canesTop.forEach((c,i)=>{if(c.visible){c.rotation.z=Math.sin(t*1.5+i)*0.08;c.position.y=0.95+Math.sin(t*2+i)*0.03;}});
+// piston pulse no capítulo final
+if(idx>=4){pistons.forEach((p,i)=>{p.position.z=Math.sin(t*4+i*0.6)*0.15;});}
+// camera lerp
+if(autoRotate&&!dragging&&!playing)theta+=0.003;
+if(!dragging)updateOrbitKeepTarget();
+camPos.lerp(desiredPos,0.06);camTgt.lerp(desiredTgt,0.08);camera.position.copy(camPos);camera.lookAt(camTgt);
+renderer.render(scene,camera);}
+function updateOrbitKeepTarget(){if(autoRotate&&playing)theta+=0.0015;const cx=desiredTgt.x,cz=desiredTgt.z;desiredPos.x=cx+radius*Math.sin(theta)*Math.cos(phi);desiredPos.z=cz+radius*Math.cos(theta)*Math.cos(phi);desiredPos.y=desiredTgt.y+radius*Math.sin(phi);}
+resize();animate();
+// portrait detect
+function checkPortrait(){document.getElementById('videowrap').classList.toggle('portrait',window.innerWidth<720);}window.addEventListener('resize',checkPortrait);checkPortrait();
+if('speechSynthesis' in window)speechSynthesis.getVoices();
+</script>
+</body>
+</html>
